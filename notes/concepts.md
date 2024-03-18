@@ -22,3 +22,31 @@ Processor:
 instance of a program running on the processor. The processor manages the execution of processes and ensures that they
 run efficiently and independently.
 
+
+
+
+synchronisation
+1. codes are executed line by line, if one part of the code is block, the whole program is blocked ? Synchronous Programming
+2. The coordination of parallel tasks in real time. Usually, this results in a parallel task waiting until
+another reaches a specific point before continuing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
