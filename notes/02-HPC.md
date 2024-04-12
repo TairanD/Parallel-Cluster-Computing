@@ -1,4 +1,4 @@
-# High-performance computing (HPC)
+. High-performance computing (HPC)
 
 - HPC is **the use of parallel processing for running programs**.
 - Its main aim are:
