@@ -78,6 +78,40 @@ int main(int argc, char **argv){
 ```
 
 
+## 3 - Working with MPI
+When working with C, we usually use the gcc compiler. 
+Additionally, the executable programs can be directly executed in a terminal.
+
+With MPI, we must use different command to compile, and to execute.
+
+### 3.1 - Compiling MPI Programs
+Instead of `gcc`, we use `mpicc`. For example, we use `mpicc example.c -o example` to create an executable named `example`.
+
+### 3.2 - Executing MPI Programs
+When we execute an MPI program, we need to tell the system how many processors/cores to use.
+Command `mpirun` can do this for us, which requires some arguments on the command line:
+- the number of program copies (-n X) where X is how many copies to execute.
+- the name of compiled program to be executed.
+
+E.g. `mpirun -n 2 example`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
