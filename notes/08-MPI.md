@@ -95,14 +95,86 @@ Command `mpirun` can do this for us, which requires some arguments on the comman
 
 E.g. `mpirun -n 2 example`
 
+## 4 - MPI Communication
 
+### 4.1 - Point to Point Communication
+The easiest method of communication between processes is point to point:
+- one process calls a function to send data
+- the other process calls a function to receive data.
+The function calls must be paired. These function calls are **blocking**.
 
+### 4.1.1 Send Data
+We use `MPI_Send` function to send data:
+```
+MPI_Send(void* data, int count, MPI_Datatype datatype, int destination,
+int tag, MPI_Comm communicator)
+```
+where:
+- `data` is a pointer to the information that we want to send
+- `count` is how many pieces of information we want to send
+- `datatype` is the type of the data
+- `destination` is the number of the process to send to
+- `tag` can be used to describe different types of messages
+- The final argument will be the constant `MPI_COMM_WORLD`
 
+For example, the following code will send a single int value to the process numbered 0:
+``` 
+int someNumber = result_of_calculation();
+MPI_Send( &someNumber, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD );
+```
 
+### 4.1.2 Receiving Data
+To receive data, we use the MPI_Recv function:
+``` 
+MPI_Recv( void* data, int count, MPI_Datatype datatype, int destination,
+int tag, MPI_Comm communicator, MPI_Status* status)
+```
+where:
+- `data` is a pointer to the information that we want to receive
+- `count` is how many pieces of information we want to receive
+- `datatype` is the type of the data
+- `destination` is the number of the process to receive from. The penultimate argument will be the constant `MPI_COMM_WORLD`.
+- `tag` can be used to describe different types of messages. For the final argument we will use the constant `MPI_STATUS_IGNORE`.
 
+``` 
+int data[3];
+MPI_Recv( data, 3, MPI_INT, 1, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+```
+This function will receive all three int values from the process numbered 1.
 
+### 4.1.3 Who Does What Task?
 
+When using MPI, we are writing a single program that can be executed as multiple processes.
+But if the code for the program is the same, then how do we have them do different work?
+We must decide and include logic to allow the program to choose.
+This is often based on **the number of the process**.
 
+For example:
+``` 
+int main(int argc, char **argv){
+    int procRank, procSize;
+    
+    MPI_Init(&argc, &argv);
+    MPI_Comm_size(MPI_COMM_WORLD, &procSize);
+    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
+    
+    srand( time(NULL) + procNum );
+    int r = rand() % 1000;
+    printf("Process %d generated the number %d\n", procRank, r);
+    int temp;
+    if (procNum == 1){
+        MPI_Send(&r, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+        printf("Process %d is sending the number %d to 0\n", procNum, r);
+    } else {
+        MPI_Recv(&temp, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        printf("Received %d from process 1\n", temp);
+        r = r + temp;
+        printf("The sum of the numbers was %d\n", r);
+    }
+    MPI_Finalize();
+    return 0;
+}
+```
 
 
 
