@@ -95,15 +95,13 @@ Command `mpirun` can do this for us, which requires some arguments on the comman
 
 E.g. `mpirun -n 2 example`
 
-## 4 - MPI Communication
-
-### 4.1 - Point to Point Communication
+## 4 - MPI Communication (Point to Point)
 The easiest method of communication between processes is point to point:
 - one process calls a function to send data
 - the other process calls a function to receive data.
 The function calls must be paired. These function calls are **blocking**.
 
-### 4.1.1 Send Data
+### 4.1 Send Data
 We use `MPI_Send` function to send data:
 ```
 MPI_Send(void* data, int count, MPI_Datatype datatype, int destination,
@@ -123,7 +121,7 @@ int someNumber = result_of_calculation();
 MPI_Send( &someNumber, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD );
 ```
 
-### 4.1.2 Receiving Data
+### 4.2 Receiving Data
 To receive data, we use the MPI_Recv function:
 ``` 
 MPI_Recv( void* data, int count, MPI_Datatype datatype, int destination,
@@ -142,7 +140,7 @@ MPI_Recv( data, 3, MPI_INT, 1, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
 ```
 This function will receive all three int values from the process numbered 1.
 
-### 4.1.3 Who Does What Task?
+### 4.3 Who Does What Task?
 
 When using MPI, we are writing a single program that can be executed as multiple processes.
 But if the code for the program is the same, then how do we have them do different work?
@@ -158,13 +156,13 @@ int main(int argc, char **argv){
     MPI_Comm_size(MPI_COMM_WORLD, &procSize);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     
-    srand( time(NULL) + procNum );
+    srand( time(NULL) + procRank );
     int r = rand() % 1000;
     printf("Process %d generated the number %d\n", procRank, r);
     int temp;
-    if (procNum == 1){
+    if (procRank == 1){
         MPI_Send(&r, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-        printf("Process %d is sending the number %d to 0\n", procNum, r);
+        printf("Process %d is sending the number %d to 0\n", procRank, r);
     } else {
         MPI_Recv(&temp, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         printf("Received %d from process 1\n", temp);
