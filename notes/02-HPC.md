@@ -1,4 +1,4 @@
-. High-performance computing (HPC)
+# High-performance computing (HPC)
 
 - HPC is **the use of parallel processing for running programs**.
 - Its main aim are:
@@ -40,3 +40,63 @@ A MMP is more tightly-integrated than a cluster. The nodes of a MMP cannot run o
         - Time-sharing on a single CPU
     - It’s possible to have parallelism without concurrency
         - Bit or instruction level parallelism
+
+#### Distributing computing
+Distributed computing is more loosely coupled than parallel computing:
+- a significant characteristic of distributed computing is the lack of a global clock
+
+
+## 6 - Memory
+There are two types of memory:
+- Shared memory: the system has **a single memory space** that is used by all processors.
+- Distributed memory: the processors in the system **each have their own memory**.
+
+### 6.1 - Shared Memory
+A system with shared memory has one big advantage: **the different processes in the task can communicate by sharing
+information in memory**, which means information written to memory by one process can be read from memory by another process.
+
+### 6.2 - Distributed Memory
+In a distributed memory system, communication is not as easy. It requires some form of interconnection (normally a network)
+to pass messages.
+
+## 7 - Why HPC?
+What types of problems required HPC?
+- Compute intensive: a single problem requiring a large amount of computation.
+- Memory intensive: a single problem requiring a large amount of memory.
+- Data intensive: a single problem operating on a large amount of data.
+- High throughput: many unrelated problems to be executed over a long period.
+Application:
+- in biology:
+  - Genome Sequencing
+  - Protein Folding Simulation
+  - Gene Expression Analysis
+  - ...
+- in physics
+  - Modelling stellar and galactic evolution
+  - Condensed matter physics
+  - Simulation of solar cell performance
+  - ...
+- in finance
+  - Analysis of historical data
+  - Financial forecasting
+  - High speed trading
+  - ...
+- in industry
+  - Oil & gas exploration
+  - Product design & testing
+  - ...
+- in entertainment
+  - Production of animated movies
+  - Addition of graphics to real movies
+  - ...
+
+
+
+
+
+
+
+
+
+
+
