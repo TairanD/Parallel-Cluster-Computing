@@ -100,6 +100,70 @@ Involves only those executing a communication operation.
 
 When a task performs a communication operation, some form of coordination is required with the other task(s) participating in the communication
 
+## 6 - Data Dependencies
+A dependence exists between program statements when the **order of statement execution affects the program results.**
+
+A data dependency is caused by multiple use of the same location in storage by different tasks.
+
+#### How to Handle Data Dependencies
+- Distributed memory architectures: communicate required data at synchronization points
+- Shared memory architectures: synchronize read/write operations between tasks
+
+## 7 - Load Balancing
+Load balancing refers to the practice of distributing approximately equal amounts of work among tasks so that all 
+tasks are kept busy all the time.
+
+There are two ways we can use to achieve load balancing:
+1. Equally partitioning work
+2. Dynamic work assignment
+
+### 7.1 - Partitioning Work
+- For problems where each task performs similar work, distributing evenly.
+- For loop iterations where the work done in each iteration is similar, evenly distribute the iterations across the tasks.
+
+This will work well for systems where each processor has a similar performance.
+Yet, many parallel computing systems are made of computers that have different performance. In this case, distributing
+work evenly in terms of the amount of workload may still result in an imbalanced load -> performance analysis tool.
+
+### 7.2 - Problems Unsuitable for Static Partitioning
+- Sparse arrays: some tasks will have actual data to work on while others have mostly zeros.
+- Adaptive grid methods: some tasks may need to refine their mesh while others don’t.
+- N-body simulations: particles may migrate across task domains requiring more work for some tasks
+
+### 7.3 - Dynamic Work Assignment
+An implementation to achieve this is the use of a **shared work queue**, which lists all the tasks to be completed.
+Worker threads will pull tasks from the queue to do, and when they are done with their current task they can pull another
+from the queue.
+
+#### Dynamic Work Assignment Approaches
+- Scheduler-task pool approach
+- Work sharing
+- Work stealing
+
+## 8 - Granularity
+### 8.1 - Fine-Grained Parallelism
+![img.png](../img/fine-grained.png)
+- Low computation to communication ratio.
+- Facilitates load balancing.
+- Fine-grained parallelism is often associated with problems that can be divided into many small tasks.
+- Work well in architectures which support fast communication
+
+### 8.2 - Coarse-Grained Parallelism
+![img.png](../img/coarse-grained.png)
+
+- High computation to communication ratio
+- Hard to load balance
+- Coarse-grained parallelism is often associated with problems that can be broken down into large tasks.
+  - generally meaning that there is less communication and synchronization overhead
+- Coarse-grained parallelism can make best use of systems with longer communication times.
+
+### 8.3 - Which is the Best?
+Depend on the algorithm & the hardware environment.
+
+
+## 9 - I/O
+
+
 
 
 
