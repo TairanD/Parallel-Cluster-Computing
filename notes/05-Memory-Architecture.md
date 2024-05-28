@@ -63,7 +63,7 @@ to take care of synchronization.
 ### 3.1 - Characteristics 
 - Memory is usually shared within a cache coherent SMP machine or similar.
 - A processor that is part of an SMP can use global addressing for that machine's memory.
-![img.png](img.png)
+![img.png](../img/hybrid-memory-arch.png)
 - The shared memory component can be a memory machine / GPU.
 - The distributed memory component is the networking of multiple shared memory/GPU machines.
 

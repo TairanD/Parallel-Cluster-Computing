@@ -1,0 +1,108 @@
+# Designing Parallel Programs
+
+Techniques for designing parallel programs are typically separated between automatic & manual parallelization.
+
+## 1 - Automatic Vs. Manual
+Manually designing parallel programs requires programmers to be responsible for 
+**identifying and implementing parallelism**, which can be very complex, error-prone,
+& iterative. Parallelizing compilers helps for converting serial programs to parallel. They work in two ways: fully
+automatic & programmer directed.
+
+### 1.1 - Fully Automatic Parallelization
+The source code of the serial program is analyzed by the compiler, which 
+- identifies opportunities for parallelism
+- identifies inhibitors to parallelism
+- analyzes whether parallelism will improve performance
+Code in loops are often the target for automatic parallelization.
+
+### 1.2 - Programmer-Directed Parallelization
+Using "compiler directives" or possibly compiler flags, the **programmer explicitly tells the compiler how to
+parallelize the code**.
+
+### 1.3 - Issues with Automatic Parallelization
+- Wrong results
+- Performance degradation
+- Much less flexible
+- Limited to a subset of code (mostly loops)
+- May not perform parallelization
+- Most for Fortran
+
+## 2 - Understand the Problem
+For a non-parallelisable problem, one part of the problem must be dependent on the other part.
+
+Hotpot: the part of the program where the real work is done.
+
+Bottleneck: areas that are disproportionately slow, or cause parallelism work to halt or be deferred (I/O).
+
+It may be possible to restructure the program or use a different algorithm to reduce or eliminate unnecessary slow areas.
+
+Inhibitors: I/P and data dependence (Fibonacci series) is generally considered an inhibitor to parallelism.
+
+
+## 3 - Partitioning
+One of the first steps in designing a parallel program is to **break the problem into discrete "chunks" of work**, known
+as decomposition or partitioning. There are two basic ways to partition computational work among parallel tasks:
+- domain decomposition
+- functional decomposition
+
+### 3.1 - Domain Decomposition
+Domain decomposition is based on **breaking up the problem data**. Each parallel task then works on a portion of the data.
+
+![img.png](../img/partition-ways.png)
+
+### 3.2 - Functional Decomposition
+Functional decomposition is **breaking up the problem based on the composition**.
+The problem is decomposed according to the work that must be done.
+
+Functional decomposition is suitable for problems that can be split into different tasks (ecosystem modelling, 
+signal processing, climate modelling).
+
+## 4 - Communication
+### 4.1 - Communication Unnecessary
+E.g. Imagine an image processing operation where every pixel in a black and white image needs to have its colour reversed
+These types of problems are often called **embarrassingly parallel** because they are so straight-forward.
+
+### 4.2 - Communication Necessary
+Most parallel applications are not quite so simple, and do require tasks to shared data with each other.
+
+### 4.3 - Factors to Consider
+- Cost of communications: implies overhead
+- Latency vs. bandwidth: sending many small messages can cause latency to dominate communication overheads -> package small
+messages into a larger one.
+- Visibility of communications
+- Synchronous vs. asynchronous
+  - synchronous communication = blocking communications
+  - asynchronous communication = non-blocking communications (e.g. task 1 can prepare and send a message to task 2,
+ and then immediately begin doing other work)
+- Scope of communications: knowing which tasks must communicate with each other:
+  - P2P
+  - Collective
+
+    
+## 5 - Synchronization
+Managing the sequence of work and the tasks performing it is a critical design consideration for most parallel programs.
+There are different types of synchronization: barrier, lock/semaphore, synchronous communication operations.
+
+### 5.1 - Barrier
+Each task performs its work until it reaches the barrier. It then stops, or "blocks".
+When the last task reaches the barrier, all tasks are synchronised.
+
+### 5.2 - Lock/Semaphore
+Can solve any number of tasks. Typically, used to serialize (protect) access to global data or a section of code.
+**Only one task at a time may use the lock / semaphore / flag.**
+
+Can be blocking or non-blocking.
+
+
+
+### 5.3 - Synchronous Communication Operations
+Involves only those executing a communication operation. 
+
+When a task performs a communication operation, some form of coordination is required with the other task(s) participating in the communication
+
+
+
+
+
+
+
