@@ -162,7 +162,49 @@ Depend on the algorithm & the hardware environment.
 
 
 ## 9 - I/O
+### 9.1 - The Bad News
+I/O operations are generally considered as inhibitors to parallelism. Parallel I/O might be immature or not available
+for all platform.
+### 9.2 - The Good News
+Parallel file systems are available
+- GPFS: General Parellel File System.
 
+
+## 10 - Limits and Costs of Parallel Programming
+
+### 10.1 - Amdahl's Law
+Amdahl's Law states that potential program speedup is defined by the fraction of code (P) that can be parallelized:
+$$\frac{1}{1-P}$$
+
+The less of the code that can be parallelism, the less possible speedup we can have.
+
+
+### 10.2 - Number of Processors
+
+Introducing the number of processors performing the parallel fraction of work, changes the formula:
+![img.png](../img/number-processor-amdahl.png)
+where P is the parallel fraction, S is the serial fraction, N is the number of processors. *Note: `P + S = 1`
+
+- The unachievable best case is for N processors, the speedup would be N.
+
+### 10.3 - Consequences of Amdahl's Law
+The amount of code NOT parallelizable is more influential than the percent that is parallelizable.
+
+Scalability is an issue, even for highly parallelizable solutions.
+
+### 10.4 - Comparing Performance and Problem Size
+Problems that increase the percentage of parallel time with their size are more scalable than problems with a fixed
+percentage of parallel time.
+
+
+
+## 11 - Scalability
+The ability of a parallel program's performance to scale is a result of a number of interrelated factors.
+- Simply adding more machines is rarely the answer.
+The algorithm may have inherent limits to scalability:
+- At some point, adding more resources causes performance to decrease.
+
+Hardware factors play a significant role in scalability.
 
 
 
