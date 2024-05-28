@@ -182,7 +182,7 @@ The less of the code that can be parallelism, the less possible speedup we can h
 ### 10.2 - Number of Processors
 
 Introducing the number of processors performing the parallel fraction of work, changes the formula:
-![img.png](../img/number-processor-amdahl.png)
+$$\text{speedup} = \frac{1}{\frac{P}{N} + S}$$
 where P is the parallel fraction, S is the serial fraction, N is the number of processors. *Note: `P + S = 1`
 
 - The unachievable best case is for N processors, the speedup would be N.
